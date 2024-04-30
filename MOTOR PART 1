@@ -1,0 +1,404 @@
+//----------------------------forward rev onltt
+// const int dirPin = 2;
+// const int stepPin = 3;
+// const int stepsPerRevolution = 5000;
+
+// int forwardSpeedDelay = 1000; // Delay for forward movement
+// int backwardSpeedDelay = 1000; // Delay for backward movement
+
+// void setup()
+// {
+//   // Declare pins as Outputs
+//   pinMode(stepPin, OUTPUT);
+//   pinMode(dirPin, OUTPUT);
+// }
+
+// void loop()
+// {
+//   // Set motor direction clockwise
+//   digitalWrite(dirPin, HIGH);
+
+//   // Spin motor slowly for high torque
+//   for(int x = 0; x < stepsPerRevolution; x++)
+//   {
+//     digitalWrite(stepPin, HIGH);
+//     delayMicroseconds(forwardSpeedDelay);
+//     digitalWrite(stepPin, LOW);
+//     delayMicroseconds(forwardSpeedDelay);
+//   }
+//   delay(1000); // Wait a second
+
+//   // Set motor direction counterclockwise
+//   digitalWrite(dirPin, LOW);
+
+//   // Spin motor slowly for high torque
+//   for(int x = 0; x < stepsPerRevolution; x++)
+//   {
+//     digitalWrite(stepPin, HIGH);
+//     delayMicroseconds(backwardSpeedDelay);
+//     digitalWrite(stepPin, LOW);
+//     delayMicroseconds(backwardSpeedDelay);
+//   }
+//   delay(1000); // Wait a second
+// }
+
+// // Function to set forward speed delay
+// void setForwardSpeedDelay(int speedDelay)
+// {
+//   forwardSpeedDelay = speedDelay;
+// }
+
+// // Function to set backward speed delay
+// void setBackwardSpeedDelay(int speedDelay)
+// {
+//   backwardSpeedDelay = speedDelay;
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//-----------------switch work but if i relise the swi its start rotating same direction 
+// #include <Stepper.h>
+
+// // Define the number of steps per revolution for your motor
+// const int stepsPerRevolution = 2000;
+
+// // Initialize the stepper motor object with the pins connected to the driver
+// Stepper myStepper(stepsPerRevolution, 2, 3); // Change pin numbers as per your connections
+
+// // Define the pin connected to the limit switch
+// const int limitSwitchPin = 6; // Change to the pin number connected to your limit switch
+
+// // Define variables to track the state of the limit switch and motor direction
+// bool limitSwitchState = false;
+// bool clockwise = true;
+
+// void setup() {
+//   // Set the limit switch pin as input
+//   pinMode(limitSwitchPin, INPUT);
+  
+//   // Set motor speed
+//   myStepper.setSpeed(100); // Adjust speed as needed
+// }
+
+// void loop() {
+//   // Read the state of the limit switch
+//   limitSwitchState = digitalRead(limitSwitchPin);
+  
+//   // Rotate the motor in the appropriate direction based on the limit switch state
+//   if (limitSwitchState == LOW) {
+//     // Limit switch is not pressed, rotate clockwise
+//     clockwise = true;
+//   } else {
+//     // Limit switch is pressed, rotate counterclockwise
+//     clockwise = false;
+//   }
+
+//   // Rotate the motor in the determined direction
+//   if (clockwise) {
+//     myStepper.step(stepsPerRevolution);
+//   } else {
+//     myStepper.step(-stepsPerRevolution);
+//   }
+// }
+
+
+
+
+//------------------work good 1 ,, but i need to relese the switch 
+// #include <Stepper.h>
+
+// // Define the number of steps per revolution for your motor
+// const int stepsPerRevolution = 200;
+
+// // Initialize the stepper motor object with the pins connected to the driver
+// Stepper myStepper(stepsPerRevolution, 2, 3); // Change pin numbers as per your connections
+
+// // Define the pin connected to the limit switch
+// const int limitSwitchPin = 6; // Change to the pin number connected to your limit switch
+
+// // Define variables to track the state of the limit switch and motor direction
+// bool limitSwitchState = false;
+// bool previousLimitSwitchState = false;
+// bool clockwise = true;
+
+// void setup() {
+//   // Set the limit switch pin as input
+//   pinMode(limitSwitchPin, INPUT);
+  
+//   // Set motor speed
+//   myStepper.setSpeed(1000); // Adjust speed as needed
+// }
+
+// void loop() {
+//   // Read the state of the limit switch
+//   limitSwitchState = digitalRead(limitSwitchPin);
+  
+//   // Check if the limit switch is pressed and its state has changed
+//   if (limitSwitchState == HIGH && previousLimitSwitchState == LOW) {
+//     // Toggle motor direction
+//     clockwise = !clockwise;
+    
+//     // Stop motor for 5 seconds
+//     myStepper.step(0);
+//     delay(500);
+//   }
+  
+//   // Update previous state of limit switch
+//   previousLimitSwitchState = limitSwitchState;
+
+//   // Rotate the motor in the determined direction
+//   if (clockwise) {
+//     myStepper.step(stepsPerRevolution);
+//   } else {
+//     myStepper.step(-stepsPerRevolution);
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///-----------------------work good 1 ,, whenn i press the switch its stop and chnage direction but i need to another limit switch
+
+// #include <Stepper.h>
+
+// // Define the number of steps per revolution for your motor
+// const int stepsPerRevolution = 200;
+
+// // Initialize the stepper motor object with the pins connected to the driver
+// Stepper myStepper(stepsPerRevolution, 2, 3); // Change pin numbers as per your connections
+
+// // Define the pin connected to the limit switch
+// const int limitSwitchPin = 6; // Change to the pin number connected to your limit switch
+
+// // Define variables to track the state of the limit switch and motor direction
+// bool limitSwitchState = false;
+// bool previousLimitSwitchState = false;
+// bool clockwise = true;
+
+// void setup() {
+//   // Set the limit switch pin as input
+//   pinMode(limitSwitchPin, INPUT_PULLUP); // Use internal pull-up resistor
+  
+//   // Set motor speed
+//   myStepper.setSpeed(1000); // Adjust speed as needed
+// }
+
+// void loop() {
+//   // Read the state of the limit switch
+//   limitSwitchState = digitalRead(limitSwitchPin);
+  
+//   // Check if the limit switch is pressed and its state has changed
+//   if (limitSwitchState == LOW && previousLimitSwitchState == HIGH) {
+//     // Stop motor for 3 seconds
+//     myStepper.step(0);
+//     delay(1000);
+
+//     // Toggle motor direction
+//     clockwise = !clockwise;
+//   }
+  
+//   // Update previous state of limit switch
+//   previousLimitSwitchState = limitSwitchState;
+
+//   // Rotate the motor in the determined direction
+//   if (clockwise) {
+//     myStepper.step(stepsPerRevolution);
+//   } else {
+//     myStepper.step(-stepsPerRevolution);
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // --------------------bestt just delay not added ,,, with two limit swi
+// #include <Stepper.h>
+
+// // Define the number of steps per revolution for your motor
+// const int stepsPerRevolution = 200;
+
+// // Initialize the stepper motor object with the pins connected to the driver
+// Stepper myStepper(stepsPerRevolution, 2, 3); // Change pin numbers as per your connections
+
+// // Define the pin connected to the "Qdown" limit switch
+// const int qdownLimitSwitchPin = 6; // Change to the pin number connected to your "Qdown" limit switch
+
+// // Define the pin connected to the "Qup" limit switch
+// const int qupLimitSwitchPin = 4; // Change to the pin number connected to your "Qup" limit switch
+
+// // Define variables to track the state of the limit switches and motor direction
+// bool qdownLimitSwitchState = false;
+// bool previousQdownLimitSwitchState = false;
+// bool qupLimitSwitchState = false;
+// bool previousQupLimitSwitchState = false;
+// bool clockwise = true;
+
+// void setup() {
+//   // Set the limit switch pins as inputs with internal pull-up resistors
+//   pinMode(qdownLimitSwitchPin, INPUT_PULLUP);
+//   pinMode(qupLimitSwitchPin, INPUT_PULLUP);
+  
+//   // Set motor speed
+//   myStepper.setSpeed(1000); // Adjust speed as needed
+// }
+
+// void loop() {
+//   // Read the state of the "Qdown" limit switch
+//   qdownLimitSwitchState = digitalRead(qdownLimitSwitchPin);
+  
+//   // Check if the "Qdown" limit switch is pressed and its state has changed
+//   if (qdownLimitSwitchState == LOW && previousQdownLimitSwitchState == HIGH) {
+//     // Rotate motor forward
+//     clockwise = true;
+//   }
+
+//   // Read the state of the "Qup" limit switch
+//   qupLimitSwitchState = digitalRead(qupLimitSwitchPin);
+
+//   // Check if the "Qup" limit switch is pressed and its state has changed
+//   if (qupLimitSwitchState == LOW && previousQupLimitSwitchState == HIGH) {
+//     // Rotate motor reverse
+//     clockwise = false;
+//   }
+
+//   // Update previous state of limit switches
+//   previousQdownLimitSwitchState = qdownLimitSwitchState;
+//   previousQupLimitSwitchState = qupLimitSwitchState;
+
+//   // Rotate the motor in the determined direction
+//   if (clockwise) {
+//     myStepper.step(stepsPerRevolution);
+//   } else {
+//     myStepper.step(-stepsPerRevolution);
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//-----------------ONLY ONE MOTOR AND 2 LIMIT SWITCH -----------------BUT WORK GOOD 
+#include <Stepper.h>
+
+// Define the number of steps per revolution for your motor
+const int stepsPerRevolution = 200;
+
+// Initialize the stepper motor object with the pins connected to the driver
+Stepper myStepper(stepsPerRevolution, 2, 3); // Change pin numbers as per your connections
+
+// Define the pin connected to the "Qdown" limit switch
+const int qdownLimitSwitchPin = 6; // Change to the pin number connected to your "Qdown" limit switch
+
+// Define the pin connected to the "Qup" limit switch
+const int qupLimitSwitchPin = 4; // Change to the pin number connected to your "Qup" limit switch
+
+// Define variables to track the state of the limit switches and motor direction
+bool qdownLimitSwitchState = false;
+bool previousQdownLimitSwitchState = false;
+bool qupLimitSwitchState = false;
+bool previousQupLimitSwitchState = false;
+bool clockwise = true;
+
+void setup() {
+  // Set the limit switch pins as inputs with internal pull-up resistors
+  pinMode(qdownLimitSwitchPin, INPUT_PULLUP);
+  pinMode(qupLimitSwitchPin, INPUT_PULLUP);
+  
+  // Set motor speed
+  myStepper.setSpeed(1000); // Adjust speed as needed
+}
+
+void loop() {
+  // Read the state of the "Qdown" limit switch
+  qdownLimitSwitchState = digitalRead(qdownLimitSwitchPin);
+  
+  // Check if the "Qdown" limit switch is pressed and its state has changed
+  if (qdownLimitSwitchState == LOW && previousQdownLimitSwitchState == HIGH) {
+    // Rotate motor forward
+    clockwise = true;
+    
+    // Stop motor for 1 second
+    myStepper.step(0);
+    delay(1000);
+  }
+
+  // Read the state of the "Qup" limit switch
+  qupLimitSwitchState = digitalRead(qupLimitSwitchPin);
+
+  // Check if the "Qup" limit switch is pressed and its state has changed
+  if (qupLimitSwitchState == LOW && previousQupLimitSwitchState == HIGH) {
+    // Rotate motor reverse
+    clockwise = false;
+
+    // Stop motor for 1 second
+    myStepper.step(0);
+    delay(1000);
+  }
+
+  // Update previous state of limit switches
+  previousQdownLimitSwitchState = qdownLimitSwitchState;
+  previousQupLimitSwitchState = qupLimitSwitchState;
+
+  // Rotate the motor in the determined direction
+  if (clockwise) {
+    myStepper.step(stepsPerRevolution);
+  } else {
+    myStepper.step(-stepsPerRevolution);
+  }
+}
